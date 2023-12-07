@@ -11,7 +11,7 @@ class Fdemo extends Frame implements ActionListener {
     int x = 8;
     int y = 28;
 
-    int[] z = new int[9];
+    public int[] z = new int[9];
 
     int a = 0;
     int l = 10;
@@ -27,21 +27,15 @@ class Fdemo extends Frame implements ActionListener {
         setBackground(Color.black);
         setForeground(Color.white);
 
-//        while (hasWinner){}
 
         for (int i = 0; i <3; i++){
             for (int j = 0 ; j<3 ; j++){
                 b[i][j] = new SimpleButton("",100, 100);
                 b[i][j].setLocation(x,y);
-                b[i][j].setFont(new Font("", Font.BOLD, 40));
                 add(b[i][j]);
                 b[i][j].addActionListener(this);
-                b[i][j].setBackground(new Color(244,141,28, 5));
-
-
                 x+=100;
             }
-
             x=8;
             y+=100;
         }
@@ -58,7 +52,9 @@ class Fdemo extends Frame implements ActionListener {
         newGame.addActionListener(this);
     }
 
+public static void removeListener(){
 
+}
 
 
     public void actionPerformed(ActionEvent e){
@@ -67,6 +63,7 @@ class Fdemo extends Frame implements ActionListener {
             for (int i = 0; i < 3; i++){
                 for(int j = 0; j < 3; j++ ){
                     b[i][j].setLabel("");
+                    b[i][j].addActionListener(this);
                     z[i] = 0;
                     a = 0;
 
@@ -75,72 +72,131 @@ class Fdemo extends Frame implements ActionListener {
 
         }
 
-        for (int i =0; i < 3; i++){
-            for(int j =0; j <3 ;j++){
-                if (e.getSource()==b[i][j] && z[i] == 0 && Objects.equals(b[i][j].getLabel(), "")){
-                    if(a % 2 == 0){
-                        b[i][j].setLabel("O");
-                        a++;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (e.getSource() == b[i][j] && z[i] == 0 && Objects.equals(b[i][j].getLabel(), "")) {
+                if (a % 2 == 0) {
+                    b[i][j].setLabel("O");
 
-                    }else {
-                        b[i][j].setLabel("X");
-                        a++;
-                    }
+                    a++;
+
+                } else {
+                    b[i][j].setLabel("X");
+                    a++;
                 }
-            }}
-
-
-        // winning conditions
-
-        PlayerWinLabel p2 = new PlayerWinLabel("Player 2 wins", l);
-        PlayerWinLabel p1 = new PlayerWinLabel("Player 1 wins", l);
-
-
-        for (int i = 0; i<3; i++){
-            if (b[i][0].getLabel() == "X" && b[i][1].getLabel() == "X" && b[i][2].getLabel() == "X" ){
-
-                add(p2);
-                l+=50;
-            }
-            if (b[i][0].getLabel() == "O" && b[i][1].getLabel() == "O" && b[i][2].getLabel() == "O" ){
-                add(p1);
-                l+=50;
             }
         }
+    }
 
-        for (int i = 0; i<3; i++){
-            if (b[0][i].getLabel() == "X" && b[1][i].getLabel() == "X" && b[2][i].getLabel() == "X" ){
-                add(p2);
-                l+=50;
 
-            }
-            if (b[0][i].getLabel() == "O" && b[1][i].getLabel() == "O" && b[2][i].getLabel() == "O" ){
-                add(p1);
-                l+=50;
-            }
-        }
 
-        if (b[0][0].getLabel() == "O" && b[1][1].getLabel() == "O" && b[2][2].getLabel() == "O" ){
-            add(p1);
-            l+=50;
-        }
+    // winning conditions
 
-        if (b[0][0].getLabel() == "X" && b[1][1].getLabel() == "X" && b[2][2].getLabel() == "X" ){
+    PlayerWinLabel p2 = new PlayerWinLabel("Gracz 2 wygrywa", l);
+    PlayerWinLabel p1 = new PlayerWinLabel("Gracz 1 wygrywa", l);
+
+
+    for (int i = 0; i < 3; i++) {
+        if (b[i][0].getLabel() == "X" && b[i][1].getLabel() == "X" && b[i][2].getLabel() == "X") {
+
             add(p2);
-            l+=50;
+            l += 50;
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                b[j][k].removeActionListener(this);
+
+                }
+            }
 
         }
-
-        if (b[2][0].getLabel() == "O" && b[1][1].getLabel() == "O" && b[0][2].getLabel() == "O" ){
+        if (b[i][0].getLabel() == "O" && b[i][1].getLabel() == "O" && b[i][2].getLabel() == "O") {
             add(p1);
-            l+=50;
-        }
+            l += 50;
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    b[j][k].removeActionListener(this);
 
-        if (b[2][0].getLabel() == "X" && b[1][1].getLabel() == "X" && b[0][2].getLabel() == "X" ){
+                }
+            }
+
+        }
+    }
+
+    for (int i = 0; i < 3; i++) {
+        if (b[0][i].getLabel() == "X" && b[1][i].getLabel() == "X" && b[2][i].getLabel() == "X") {
             add(p2);
-            l+=50;
+            l += 50;
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    b[j][k].removeActionListener(this);
+
+                }
+            }
+
 
         }
+        if (b[0][i].getLabel() == "O" && b[1][i].getLabel() == "O" && b[2][i].getLabel() == "O") {
+            add(p1);
+            l += 50;
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    b[j][k].removeActionListener(this);
+
+                }
+            }
+
+        }
+    }
+
+    if (b[0][0].getLabel() == "O" && b[1][1].getLabel() == "O" && b[2][2].getLabel() == "O") {
+        add(p1);
+        l += 50;
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                b[j][k].removeActionListener(this);
+
+            }
+        }
+
+    }
+
+    if (b[0][0].getLabel() == "X" && b[1][1].getLabel() == "X" && b[2][2].getLabel() == "X") {
+        add(p2);
+        l += 50;
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                b[j][k].removeActionListener(this);
+
+            }
+        }
+
+
+    }
+
+    if (b[2][0].getLabel() == "O" && b[1][1].getLabel() == "O" && b[0][2].getLabel() == "O") {
+        add(p1);
+        l += 50;
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                b[j][k].removeActionListener(this);
+
+            }
+        }
+
+    }
+
+    if (b[2][0].getLabel() == "X" && b[1][1].getLabel() == "X" && b[0][2].getLabel() == "X") {
+        add(p2);
+        l += 50;
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                b[j][k].removeActionListener(this);
+
+            }
+        }
+
+
+    }
 
 
 
